@@ -146,11 +146,11 @@ int scrambledEggs(string in, long long fact){
 	    if (total <= fact) {
 			if(binary(foundWords, comPhrase))  {
 				comPhrase = scramble(foundWords, comPhrase);
-		        r = false;
+				r = false;
 			}
         	foundWords.push_back(comPhrase);
 	        sort(foundWords.begin(),foundWords.end());
-		    fout << comPhrase << endl;
+			fout << comPhrase << endl;
 			total++;
 	    }
 
@@ -160,7 +160,7 @@ int scrambledEggs(string in, long long fact){
 	    if (total <= fact && r) {
 			if(binary(foundWords, comPhrase))  {
 				comPhrase = scramble(foundWords, comPhrase);
-		        r = false;
+				r = false;
 			}
         	foundWords.push_back(comPhrase);
 	        sort(foundWords.begin(),foundWords.end());
@@ -168,7 +168,7 @@ int scrambledEggs(string in, long long fact){
 			total++;
 	    }
 
-		if ((index > 0) && (index % 2 != 0) && r) { 
+		if ((index > 0) && (index % 2 != 0) && r) {
 			comPhrase = second + first + begPhrase + endPhrase; }
 	
 		progress = total / fact;
@@ -234,9 +234,8 @@ bool intLinear(int arr[], int s, int a) {
 // Checking if the arguement is a string
 // Used for seeing if the user wants a certain amount of scramble eggs 
 bool isString(char* str) {
-	while(*str != 0) {
-		if(!isdigit(*str++)) { return false; }
-	} return true;
+	while(*str != 0) { if(!isdigit(*str++)) { return false; } }
+	return true;
 }
 
 // Checking if there are any multiple characters in phrase
@@ -254,13 +253,13 @@ long long totalFactorial(string p) {
 		for(int j = (i+1); j < p.size(); j++) {
 			b = p[j];
 			if(a==b && !intLinear(arr,c,j)) {
-			temp++;
-			arr[c]=j;
-			c++;
+				temp++;
+				arr[c]=j;
+				c++;
+			}
 		}
-	}
-	if(temp!=1) { denominator *= factorial(temp); }
-	temp=1;
+		if(temp!=1) { denominator *= factorial(temp); }
+		temp=1;
 	} return (factorial(p.size()) / denominator);
 }
 
