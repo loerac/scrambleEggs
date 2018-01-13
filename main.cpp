@@ -17,7 +17,6 @@ bool isString(char* str);
 long long totalFactorial(string p);
 long long factorial(int f);
 
-// supercalifragilisticexpialidocious catrovacer
 int main(int argc, char* argv[]){
 	if(argc < 2) {
 		cout << "\nError: no phrase given: " << argv[0] << " [phrase] [n permutations (optional)]\n" << endl;
