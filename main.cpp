@@ -17,7 +17,7 @@ bool isString(char* str);
 long long totalFactorial(string p);
 long long factorial(int f);
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[]) {
 	if(argc < 2) {
 		cout << "\nError: no phrase given: " << argv[0] << " [phrase] [n permutations (optional)]\n" << endl;
 		return 2;
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
 		cout << "\nError: input has to be greater or equal to 1\n" << endl;
 		return 2;
 	}
-
+	
 	// Finding and display the total possibilities for the phrase
 	total = (argc < 3 ? totalFactorial(phrase) : atoi(argv[argc - 1]));
 	count = totalFactorial(phrase);
@@ -53,14 +53,14 @@ int main(int argc, char* argv[]){
 	cout << "Total Possibilites: " << total << "  -  " << phrase << endl;
 	cout << "Please wait, this might take a while..." << endl;
 	cout << "==================================================" << endl;
-
+	
 	count = scrambledEggs(phrase,total);
-
+	
 	cout << "\nName: " << phrase << endl;
 	cout << "Found: " << count << " combinations out of " << total << endl;
 	cout << "Check " << temp << " for name ciphers." << endl;
 	cout << "==================================================" << endl;
-
+	
 	cout << "           __" << endl;
 	cout << "         /  (|" << endl;
 	cout << "         \\   \\" << endl;
@@ -131,8 +131,8 @@ int scrambledEggs(string in, long long fact){
 
 	// This where it gets messy
 	while (total < fact) {
-	    endPhrase = ""; 
-	    if (index % 2 == 0) {
+		endPhrase = ""; 
+		if (index % 2 == 0) {
 			first = comPhrase[0]; second = comPhrase[1];
 			for (i = 2; i < comPhrase.size(); i++) { endPhrase += comPhrase[i]; }
 			comPhrase = first + second + endPhrase;
@@ -141,39 +141,39 @@ int scrambledEggs(string in, long long fact){
 			for (i = 3; i < comPhrase.size(); i++) { endPhrase += comPhrase[i]; }
 			begPhrase = comPhrase[0];
 			comPhrase = begPhrase + second + first + endPhrase;
-	    }
-
-	    if (total <= fact) {
+		}
+	
+		if (total <= fact) {
 			if(binary(foundWords, comPhrase))  {
 				comPhrase = scramble(foundWords, comPhrase);
 				r = false;
 			}
-        	foundWords.push_back(comPhrase);
-	        sort(foundWords.begin(),foundWords.end());
+			foundWords.push_back(comPhrase);
+			sort(foundWords.begin(),foundWords.end());
 			fout << comPhrase << endl;
 			total++;
-	    }
-
-	    if ((index % 2 == 0) && r) { comPhrase = second + first + endPhrase; }
-	    else if(r) { comPhrase = second + begPhrase + first + endPhrase; }
-	 
-	    if (total <= fact && r) {
+		}
+	
+		if ((index % 2 == 0) && r) { comPhrase = second + first + endPhrase; }
+		else if(r) { comPhrase = second + begPhrase + first + endPhrase; }
+	
+		if (total <= fact && r) {
 			if(binary(foundWords, comPhrase))  {
 				comPhrase = scramble(foundWords, comPhrase);
 				r = false;
 			}
-        	foundWords.push_back(comPhrase);
-	        sort(foundWords.begin(),foundWords.end());
-		    fout << comPhrase << endl;
+			foundWords.push_back(comPhrase);
+			sort(foundWords.begin(),foundWords.end());
+			fout << comPhrase << endl;
 			total++;
-	    }
-
+		}
+	
 		if ((index > 0) && (index % 2 != 0) && r) {
 			comPhrase = second + first + begPhrase + endPhrase; }
-	
+
 		progress = total / fact;
 		cout << "Found: " << comPhrase << " ------------ Completed[" << fixed << setprecision(3) << (progress*100.0) << "%]\r";
-		
+
 		if ((foundWords.size() % 6 == 0) && r) {
 			endPhrase = "";
 			for (i = 0; i < (comPhrase.size() - 2); i++) { endPhrase += comPhrase[i]; }
@@ -182,7 +182,7 @@ int scrambledEggs(string in, long long fact){
 			comPhrase = begPhrase + endPhrase;
 			index--;
 		}
-	
+
 		if (r) { index++; }
 		r = true;
 	} return total;
@@ -197,8 +197,7 @@ string scramble(vector<string> l, string in){
 	int c = 0;
 
 	while (binary(l, cp)) {
-		if (c >= (cp.size() * 2))
-			random_shuffle(cp.begin() , cp.end());
+		if (c >= (cp.size() * 2)) { random_shuffle(cp.begin() , cp.end()); }
 		else {
 			ep = "";
 			for (int i = 0; i < (cp.size() - 1); i++) { ep += cp[i]; }
@@ -247,7 +246,7 @@ long long totalFactorial(string p) {
 	int temp = 1;
 	int arr[p.size()];
 	int denominator = 1;
-	
+
 	for(int i = 0; i < p.size(); i++) {
 		a = p[i];
 		for(int j = (i+1); j < p.size(); j++) {
