@@ -109,7 +109,7 @@ int scrambledEggs(string in, long long fact){
 	// If the total amount found in the existing file is greater than what the user asked,
 	// let user decide if they want to delete or not
 	if (total >= fact) {
-		cout << file << " already has " << total << endl;
+		cout << file << " already has " << total << " permutations" << endl;
 		string resp;
 		cout << "Delete existing file and continue [y/n] >> ";
 		cin >> resp;
@@ -122,16 +122,19 @@ int scrambledEggs(string in, long long fact){
 		} else {
 			cout << "\nDeleted: " << file;
 			puts(" - Success\n");
-			total = 0;
+			while(!foundWords.empty()) { foundWords.pop_back(); }
 			comPhrase = in;
+			foundWords.push_back(comPhrase);
+			total = foundWords.size();
 		}
 	}
     fout.open(file.c_str());
 
     if (total != 0) { for (i = 0; i < total; i++) { fout << foundWords[i] << endl; }}
+    sort(foundWords.begin(),foundWords.end());
         
 	// This where it gets messy
-	while (total != fact) {
+	while (total < fact) {
 	    endPhrase = ""; 
 	    if (index % 2 == 0) {
 			first = comPhrase[0]; second = comPhrase[1];
@@ -144,26 +147,30 @@ int scrambledEggs(string in, long long fact){
 			comPhrase = begPhrase + second + first + endPhrase;
 	    }
 
-	    if (binary(foundWords, comPhrase) && (total <= fact)) {
-			comPhrase = scramble(foundWords, comPhrase);
-	        r = false;
+	    if (total <= fact && r) {
+			if(binary(foundWords, comPhrase) && r)  {
+				comPhrase = scramble(foundWords, comPhrase);
+		        r = false;
+			}
+        	foundWords.push_back(comPhrase);
+	        sort(foundWords.begin(),foundWords.end());
+		    fout << comPhrase << endl;
+			total++;
 	    }
-        foundWords.push_back(comPhrase);
-        sort(foundWords.begin(),foundWords.end());
-	    fout << comPhrase << endl;
-		total++;
 
 	    if ((index % 2 == 0) && r) { comPhrase = second + first + endPhrase; }
 	    else if(r) { comPhrase = second + begPhrase + first + endPhrase; }
 	 
-	    if (binary(foundWords, comPhrase) && r) {
-			comPhrase = scramble(foundWords, comPhrase);
-			r = false;
+	    if (total <= fact && r) {
+			if(binary(foundWords, comPhrase) && r)  {
+				comPhrase = scramble(foundWords, comPhrase);
+		        r = false;
+			}
+        	foundWords.push_back(comPhrase);
+	        sort(foundWords.begin(),foundWords.end());
+		    fout << comPhrase << endl;
+			total++;
 	    }
-		foundWords.push_back(comPhrase);
-		sort(foundWords.begin(), foundWords.end());
-		fout << comPhrase << endl;
-		total++;
 
 	    if ((index > 0) && (index % 2 != 0) && r) { 
 			comPhrase = second + first + begPhrase + endPhrase; }
@@ -197,8 +204,7 @@ string scramble(vector<string> l, string in){
 		    random_shuffle(cp.begin() , cp.end());
 		else {
    		    ep = "";
-		    for (int i = 0; i < (cp.size() - 1); i++)
-				ep += cp[i];
+		    for (int i = 0; i < (cp.size() - 1); i++) { ep += cp[i]; }
 	    	cp = cp[cp.size() - 1];
 		    cp += ep;
 		    if (cp == bp) {
@@ -208,7 +214,7 @@ string scramble(vector<string> l, string in){
 				for (int i = 0; i < (cp.size() - 3); i++) { ep += cp[i]; }
 				cp = cp[cp.size() - 1];
 				cp += ep + s + f;
-				if (!binary(l, cp)) { return cp; }
+				//if (!binary(l, cp)) { return cp; }
 				bp = cp;
 			}
 		} c++;
@@ -217,9 +223,8 @@ string scramble(vector<string> l, string in){
 
 // Checking if the phrase is already in the vector already
 // Used for function: scrambleEggs() and scramble()
-bool binary(vector<string>list,string p){
-    if (binary_search(list.begin(), list.end(), p))
-        return true;
+bool binary(vector<string> list, string p){
+    if (binary_search(list.begin(), list.end(), p)) { return true; }
     return false;
 }
 
