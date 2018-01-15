@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 		cout << "\nError: no phrase given: " << argv[0] << " [phrase] [n permutations (optional)]\n" << endl;
 		return 2;
 	}
-
+	
 	// Variables
 	long long count, total;
 	string temp;
@@ -38,13 +38,18 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Checking if the user has a valid n permutations
-	if((atoi(argv[argc - 1]) < 1) && argc > 3) {
-		cout << "\nError: input has to be greater or equal to 1\n" << endl;
-		return 2;
+	// ---> Check to see if it is a string first <---
+	if(isString(argv[argc - 1])) {
+		if((atoi(argv[argc - 1]) < 1)) {
+			cout << "\nError: input has to be greater or equal to 1\n" << endl;
+			return 2;
+		}
 	}
 	
 	// Finding and display the total possibilities for the phrase
-	total = (argc < 3 ? totalFactorial(phrase) : atoi(argv[argc - 1]));
+	if(isString(argv[argc - 1])) { total = atoi(argv[argc - 1]); }
+	else { total = totalFactorial(phrase); }
+
 	count = totalFactorial(phrase);
 	if(count < total) {
 		cout << "\nError: " << total << " is greater than total factorial\n" << endl;
@@ -108,7 +113,7 @@ int scrambledEggs(string in, long long fact){
 	if (total >= fact) {
 		cout << file << " already has " << total << " permutations" << endl;
 		string resp;
-		cout << "Delete existing file and continue [y/n] >> ";
+		cout << "Delete " << file << " and continue [y/n] >> ";
 		cin >> resp;
 		resp = toupper(resp[0]);
 
